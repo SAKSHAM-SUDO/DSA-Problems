@@ -3,48 +3,23 @@ class Solution {
         int n = t.length;
         int ans[] = new int[n];
         Stack<Integer> st = new Stack<>();
+        int hottest = 0;
         
-        ans[n - 1] = 0;
-        st.push(n-1);
-        
-        // for(int i = n-2; i >= 0; i--)
-        // {
-        //     if(!st.isEmpty() && t[i] < t[st.peek()])
-        //     {
-        //         ans[i] = st.peek() - i;
-        //         st.push(i);
-        //     }
-        //     else{
-        //         while(!st.isEmpty() && t[i] >= t[st.peek()])
-        //         {
-        //             st.pop();
-        //         }
-        //         if(st.isEmpty())
-        //         {
-        //             st.push(i);
-        //             ans[i] = 0;
-        //         }
-        //         else{
-        //             ans[i] = st.peek() - i;
-        //             st.push(i);    
-        //         }
-        //     }
-        // }
-        
-        for(int i = n-2; i >= 0; i--)
+        for(int i  = n-1; i >= 0; i--)
         {
-            while(!st.isEmpty() && t[i] >= t[st.peek()])
+            if(t[i] >= hottest)
             {
-                st.pop();
+                hottest = t[i];
+                continue;
             }
-            if(st.isEmpty()){
-                ans[i] = 0;
+            int days = 1;
+            while(t[i + days] <= t[i])
+            {
+                days = days +  ans[i + days];
             }
-            else{
-                ans[i] = st.peek() - i;
-            }
-            st.push(i);
+            ans[i] = days;
         }
+        
         return ans;
     }
 }
