@@ -1,11 +1,6 @@
 class Solution {
     public int minAddToMakeValid(String s) {
-        if(s.length() == 1)
-        {
-            return 1;
-        }
         Stack<Character> st = new Stack<>();
-        int count = 0;
         
         for(int i = 0; i < s.length(); i++)
         {
@@ -15,23 +10,15 @@ class Solution {
                 st.push(ch);
             }
             else{
-                if(st.isEmpty())
+                if(!st.isEmpty() && st.peek() =='(')
                 {
-                    count++;
-                }
-                else
                     st.pop();
+                }
+                else{
+                    st.push(ch);
+                }
             }
         }
-        if(st.isEmpty())
-        return count;
-        else{
-            while(!st.isEmpty())
-            {
-                st.pop();
-                count++;
-            }
-            return count;
-        }
+        return st.size();
     }
 }
