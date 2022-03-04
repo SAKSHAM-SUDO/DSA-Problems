@@ -53,32 +53,18 @@ class Sol
             }
         }
         
-        // int length = st.size();
-        // int open = 0;
-        // while(!st.isEmpty())
-        // {
-        //     if(st.peek() == '{')
-        //     {
-        //         open++;
-        //     }
-        //     st.pop();
-        // }
-        // return (int)(Math.ceil((length - open) / 2) + Math.ceil(open));
-        
-        int red_len = st.size();
-     
-        // count opening brackets at the end of
-        // stack
-        int n = 0;
-        while (!st.empty() && st.peek() == '{')
-        {
-            st.pop();
-            n++;
+        int count=0;
+        char c1=0,c2=0;
+        while(!st.isEmpty()) {
+            c1 = st.pop();
+            c2 = st.pop();
+            if (c1 == c2) {
+                count++;
+            } else {
+                count += 2;
+            }
         }
-     
-        // return ceil(m/2) + ceil(n/2) which is
-        // actually equal to (m+n)/2 + n%2 when
-        // m+n is even.
-        return (red_len/2 + n%2);
+        return count;       
+
     }
 }
