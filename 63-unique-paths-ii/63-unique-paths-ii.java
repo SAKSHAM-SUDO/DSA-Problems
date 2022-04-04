@@ -1,0 +1,39 @@
+class Solution {
+    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        int r  = obstacleGrid.length;
+        int c  = obstacleGrid[0].length;
+        int dp[][] = new int[r][c];
+        for(int rows[] : dp)
+        {
+            Arrays.fill(rows, -1);
+        }
+        int count = getPaths(0, 0, r, c, obstacleGrid, dp);
+        return count;
+    }
+    public int getPaths(int i, int j, int r, int c, int grid[][], int dp[][])
+    {
+        if(i == r-1 && j == c - 1)
+        {
+            if(grid[r-1][c-1] == 1)
+            return 0;
+            else
+                return 1;
+        }
+        else if(i >= r || j >= c)
+        {
+            return 0;
+        }
+        else if(grid[i][j] == 1)
+        {
+            return 0;
+        }
+        else if(dp[i][j] != -1)
+        {
+            return dp[i][j];
+        }
+        int right = getPaths(i, j + 1, r, c, grid, dp);
+        int down = getPaths(i + 1, j, r, c, grid, dp);
+        dp[i][j] = down + right;
+        return dp[i][j];
+    }
+}
