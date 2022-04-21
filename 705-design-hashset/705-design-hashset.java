@@ -1,21 +1,25 @@
 class MyHashSet {
-    int size = (int)Math.pow(10, 6)+1;
-	boolean[] flag;
-    
+	ArrayList<Integer> ar;
     public MyHashSet() {
-		flag = new boolean[size];
-	}
+        ar=new ArrayList<>();
+    }
     
     public void add(int key) {
-        flag[key]=true;
+        if(!contains(key))
+            ar.add(key);
     }
     
     public void remove(int key) {
-        flag[key]=false;
+        if(contains(key))
+            ar.remove(new Integer(key));
     }
     
     public boolean contains(int key) {
-        return flag[key];
+        for(int num:ar){
+            if(num==key)
+                return true;
+        }
+        return false;
     }
 }
 
