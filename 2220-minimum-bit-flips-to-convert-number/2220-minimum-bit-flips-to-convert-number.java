@@ -5,8 +5,8 @@ class Solution {
         
         while(mask != 0)
         {
-            count++;
-            mask = mask & (mask - 1);
+            count = count + (mask & 1);
+            mask = mask >> 1;
         }
         return count;
     }
