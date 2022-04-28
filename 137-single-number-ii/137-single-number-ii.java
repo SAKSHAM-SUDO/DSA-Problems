@@ -1,26 +1,23 @@
 class Solution {
     public int singleNumber(int[] nums) {
-        int p = 1;
         int ans = 0;
+        int mask ;
+        int sum;
         for(int i = 0; i < 32; i++)
         {
-            int one = 0; 
-            int zero = 0;
+            mask = (1 << i);
+            sum = 0;
             for(int j = 0; j < nums.length; j++)
             {
-                if((p & nums[j]) != 0)
+                if((mask & nums[j]) != 0)
                 {
-                    one++;
-                }
-                else{
-                    zero++;
+                    sum++;
                 }
             }
-            if(one % 3 == 1)
+            if(sum % 3 != 0)
             {
-                ans = ans + p;
+                ans = ans | mask;
             }
-            p = p * 2;
         }
         return ans;
     }
