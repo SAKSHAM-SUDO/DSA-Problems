@@ -1,17 +1,27 @@
 class Solution {
     public int singleNumber(int[] nums) {
-        Arrays.sort(nums);
-        
-        for(int i = 0; i < nums.length - 1; i++)
+        int p = 1;
+        int ans = 0;
+        for(int i = 0; i < 32; i++)
         {
-            if(nums[i] == nums[i+1])
+            int one = 0; 
+            int zero = 0;
+            for(int j = 0; j < nums.length; j++)
             {
-                i = i + 2;
+                if((p & nums[j]) != 0)
+                {
+                    one++;
+                }
+                else{
+                    zero++;
+                }
             }
-            else{
-                return nums[i];
+            if(one % 3 == 1)
+            {
+                ans = ans + p;
             }
+            p = p * 2;
         }
-        return nums[nums.length-1];
+        return ans;
     }
 }
