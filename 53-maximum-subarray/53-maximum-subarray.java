@@ -1,18 +1,18 @@
 class Solution {
     public int maxSubArray(int[] nums) {
-        int maxSum = nums[0];
-        int curSum = nums[0];
+        int maxSum = Integer.MIN_VALUE;
+        int curSum = 0;
         
-        for(int i = 1; i < nums.length; i++)
+        for(int i = 0; i < nums.length; i++)
         {
-            if(curSum < 0)
-                curSum = nums[i];
-            
-            else
-                curSum = curSum + nums[i];
+            curSum = curSum + nums[i];
             
             if(curSum > maxSum)
                 maxSum = curSum;
+            
+            if(curSum < 0)
+                curSum = 0;
+            
         }
         return maxSum;
     }
