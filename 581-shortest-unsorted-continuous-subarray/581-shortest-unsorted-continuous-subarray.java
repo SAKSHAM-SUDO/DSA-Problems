@@ -1,18 +1,28 @@
 public class Solution {
     public int findUnsortedSubarray(int[] nums) {
-        Stack < Integer > stack = new Stack < Integer > ();
-        int l = nums.length, r = 0;
-        for (int i = 0; i < nums.length; i++) {
-            while (!stack.isEmpty() && nums[stack.peek()] > nums[i])
-                l = Math.min(l, stack.pop());
-            stack.push(i);
+        int right = -1;
+        int max = nums[0];
+        for(int i = 1; i < nums.length; i++)
+        {
+            if(nums[i] < max)
+            {
+                right = i;
+            }
+            else
+                max = nums[i];
         }
-        stack.clear();
-        for (int i = nums.length - 1; i >= 0; i--) {
-            while (!stack.isEmpty() && nums[stack.peek()] < nums[i])
-                r = Math.max(r, stack.pop());
-            stack.push(i);
+        int left = 0;
+        int min = nums[nums.length - 1];
+        
+        for(int i = nums.length - 2; i >= 0; i--)
+        {
+            if(nums[i] > min)
+            {
+                left = i;
+            }
+            else
+                min = nums[i];
         }
-        return r - l > 0 ? r - l + 1 : 0;
+        return right - left + 1;
     }
 }
