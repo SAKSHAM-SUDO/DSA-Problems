@@ -1,51 +1,27 @@
 class Solution {
-    public int maximumSwap(int s) {
-        String num = s + "";
-        int n = num.length();
-        int rightMax[] = new int[n];
-        int nums[] = new int[n];
-        for(int i = 0; i < n; i++)
-        {
-            nums[i] = (num.charAt(i) - '0');
+    public int maximumSwap(int num) {
+        if(num==0) return 0;
+        char[] digits = String.valueOf(num).toCharArray();
+        
+        int[] buckets = new int[10];
+        for(int i=0;i<digits.length;i++){
+            buckets[digits[i]-'0']=i;
         }
         
-        rightMax[n - 1] = n - 1;
-        
-        for(int i = n - 2; i >= 0; i--)
-        {
-            if(nums[i] > nums[rightMax[i + 1]]) 
-            {
-                rightMax[i] = i;
-            }
-            else
-                rightMax[i] = rightMax[i + 1];
-        }
-        
-        
-        
-        
-        
-        
-        for(int i = 0; i < n; i++)
-        {
-            System.out.print(rightMax[i] + ", ");
-        }
-        
-        for(int i = 0; i < n; i++)
-        {
-            if(nums[i] < nums[rightMax[i]])
-            {
-                nums[i] = nums[i] ^ nums[rightMax[i]];
-                nums[rightMax[i]] = nums[i] ^ nums[rightMax[i]];
-                nums[i] = nums[i] ^ nums[rightMax[i]];
-                break;
+        for(int i=0;i<digits.length;i++){
+            for(int j=9;j>digits[i]-'0';j--){
+                if(buckets[j]>i){
+                    swap(digits,i,buckets[j]);
+                    return Integer.parseInt(String.valueOf(digits));
+                }
             }
         }
-        StringBuilder ans = new StringBuilder();
-        for(int i = 0; i < n; i++)
-        {
-            ans.append(nums[i]);
-        }
-        return Integer.parseInt(ans.toString());
+        return num;
+        
+    }
+    static void swap(char[] arr,int i,int j){
+        char t=arr[i];
+        arr[i]=arr[j];
+        arr[j]=t;
     }
 }
