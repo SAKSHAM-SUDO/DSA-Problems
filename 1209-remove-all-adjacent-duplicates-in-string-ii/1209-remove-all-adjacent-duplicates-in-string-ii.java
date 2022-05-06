@@ -1,41 +1,45 @@
 class Solution {
+    
     public String removeDuplicates(String s, int k) {
-        
-        Stack<Character> st = new Stack<>();
-        int count = 0;
-        boolean duplicate = false;
+        Stack<Pair> st = new Stack<>();
         
         for(int i = 0; i < s.length(); i++)
         {
-            if(!st.isEmpty() && s.charAt(i) == st.peek())
+            if(!st.isEmpty() && s.charAt(i) == st.peek().ch)
             {
-                count++;
+                Pair p = st.peek();
+                int j = p.c + 1;
+                st.pop();
+                st.push(new Pair(p.ch, j));
             }
             else{
-                count = 1;
+                st.push(new Pair(s.charAt(i), 1));
             }
-            st.push(s.charAt(i));
             
-            if(count == k)
+            if(st.peek().c == k)
             {
-                while(count != 0)
-                {
-                    st.pop();
-                    count--;
-                }
-                count = 1;
-                duplicate = true;
+                st.pop();
             }
         }
+        
         String ans = "";
         while(!st.isEmpty())
         {
-            ans = st.pop() + ans;
-        }
-        if(duplicate)
-        {
-             return removeDuplicates(ans, k);
+            Pair p = st.pop();
+            int c = p.c;
+            while(c-- != 0)
+                ans = p.ch + ans;
         }
         return ans;
+    }
+    class Pair
+    {
+        char ch;
+        int c;
+        Pair(char ch, int c)
+        {
+            this.ch = ch;
+            this.c = c;
+        }
     }
 }
