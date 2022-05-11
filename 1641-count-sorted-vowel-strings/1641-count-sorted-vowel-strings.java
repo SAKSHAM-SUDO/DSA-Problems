@@ -1,25 +1,22 @@
 class Solution {
-    final char[] arr = {'a', 'e', 'i', 'o', 'u'};
     public int countVowelStrings(int n) {
         int count = 0;
-        count = calc(0, n, new StringBuilder());
+        count = calc(0, n, 0);
         return count;
     }
-    public int calc(int idx, int n, StringBuilder s)
+    public int calc(int idx, int n, int count)
     {
-        if(s.length() == n)
+        if(count == n)
         {
             return 1;
         }
-        else if(s.length() > n)
+        else if(count > n)
             return 0;
         
         int total = 0;
         for(int i = idx; i < 5; i++)
         {
-            s.append(arr[i]);
-            total = total + calc(i, n, s);
-            s.deleteCharAt(s.length() - 1);
+            total = total + calc(i, n, count + 1);
         }
         return total;
     }
