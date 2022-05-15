@@ -14,32 +14,27 @@
  * }
  */
 class Solution {
-    int height = 0;
-    int maxHeight = Integer.MIN_VALUE;
-    int sum = 0;
+    
+    int sum  = 0;    // Initializing Sum
+    
     public int deepestLeavesSum(TreeNode root) {
-        inorderDFS(root, height);
+        int maxDepth = maxDepth(root);
+        findSum(root, 1, maxDepth);      //calling helper function
         return sum;
     }
-    public void inorderDFS(TreeNode root , int height)
-    {
-        if(root == null)
-            return;
-        height = height + 1;
-        inorderDFS(root.left, height);
-        if(root.left == null && root.right == null)
-        {
-            if(maxHeight < height)
-            {
-                maxHeight = height;
-                sum = root.val;
-            }
-            else if(maxHeight == height)
-            {
-                sum = sum + root.val;
-            }
-        }
-        inorderDFS(root.right, height);
+    
+    public int maxDepth(TreeNode node) {   // finding max Depth of a Tree
+        if(node == null) return 0;
+        return 1 + Math.max(maxDepth(node.left), maxDepth(node.right));
     }
     
+    public void findSum(TreeNode node, int curr, int depth) {
+        if(node != null) {
+            if(curr == depth) { // if current level is equals to max Depth
+                sum+=node.val;  // then add to sum
+            }
+            findSum(node.left, curr+1, depth);  // recursive call on left 
+            findSum(node.right, curr+1, depth); // recursive call on right
+        }
+    }
 }
