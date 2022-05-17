@@ -25,14 +25,13 @@ class Solution {
         while(q.size() != 0)
         {
             List<Integer> ll = new ArrayList<>();
-            Stack<Integer> st = new Stack<>();
             int size = q.size();
             for(int i = 0; i < size; i++)
             {
                 TreeNode curr = q.poll();
                 if(lvl % 2 == 1)
                 {
-                    st.push(curr.val);
+                    ll.add(0, curr.val);
                 }
                 else
                 {
@@ -40,10 +39,6 @@ class Solution {
                 }
                 if(curr.left != null) q.add(curr.left);
                 if(curr.right != null) q.add(curr.right);
-            }
-            while(!st.isEmpty())
-            {
-                ll.add(st.pop());
             }
             list.add(new ArrayList<>(ll));
             lvl++;
