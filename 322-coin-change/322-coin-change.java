@@ -1,25 +1,23 @@
 class Solution {
     public int coinChange(int[] coins, int amount) {
-        int t[][] = new int[coins.length + 1][amount + 1];
-        for(int v[] : t){
-            Arrays.fill(v, -1);
+        int dp[][] = new int[coins.length + 1][amount+1];
+        for(int i = 0; i < dp.length; i++) {
+            for(int j = 0; j < dp[0].length; j++) {
+                if(j == 0) {
+                    dp[i][j] = 0;
+                }
+                else if(i == 0) {
+                    dp[i][j] = (int)1e5; 
+                }
+                else if(coins[i-1] > j) {
+                    dp[i][j] = dp[i-1][j];
+                }
+                else {
+                    dp[i][j] = Math.min(1+dp[i][j-coins[i-1]], dp[i-1][j]);
+                }
+            }
         }
-
-        int minCoins = subsetmin(coins, amount, coins.length, t);
-        return minCoins == Integer.MAX_VALUE - 1 ? -1 : minCoins;
-    }
-    public int subsetmin(int coins[], int sum, int n, int t[][]){
-        if(n == 0 && sum != 0) return Integer.MAX_VALUE - 1;
-        if(sum == 0) return 0;
-        if(t[n][sum] != -1) return t[n][sum];
-        
-        if(coins[n - 1] <= sum){
-            t[n][sum] =  Math.min(subsetmin(coins, sum - coins[n - 1], n, t) + 1, subsetmin(coins, sum, n - 1, t));
-        }
-        else{
-            t[n][sum] =  subsetmin(coins, sum, n - 1, t);
-        }
-        
-        return t[n][sum];
+        return dp[coins.length][amount] > (int)1e4 ? -1:dp[coins.length][amount];
     }
 }
+
