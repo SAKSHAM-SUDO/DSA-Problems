@@ -19,8 +19,15 @@ class Solution {
         {
             return head;
         }
+
         Node curr = head;
-        
+        // while(curr != null)
+        // {
+        //     Node temp = new Node(curr.val);
+        //     temp.next = curr.next;
+        //     curr.next = temp;
+        //     curr = curr.next.next;
+        // }
         while(curr != null)
         {
             Node node = new Node(curr.val);
@@ -28,23 +35,25 @@ class Solution {
             curr.next = node;
             curr = curr.next.next;
         }
+
         curr = head;
         while(curr != null)
         {
             curr.next.random = curr.random != null ? curr.random.next : null;
             curr = curr.next.next;
         }
-        
+
         Node orig = head;
-        Node copy = head.next;
-        Node t = copy;
+        Node temp = head.next;
+        Node dup = temp;
         while(orig != null)
         {
             orig.next = orig.next.next;
-            t.next = t.next != null ? t.next.next : null;
+            dup.next = dup.next != null ? dup.next.next : null;
             orig = orig.next;
-            t = t.next;
+            dup = dup.next;
         }
-        return copy;
+
+        return temp;
     }
 }
