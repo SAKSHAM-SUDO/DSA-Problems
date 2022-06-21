@@ -31,24 +31,33 @@ public class Main {
 
 class Solution {
     int findMaxSum(int arr[], int n) {
-        int dp[] = new int[n+1];
-        Arrays.fill(dp, -1);
-        return calc(arr, n - 1, dp);
+        int dp[] = new int[n];
+        dp[0] = arr[0];
+        
+        for(int i = 1; i < n; i++)
+        {
+            int take = arr[i];
+            if(i > 1)
+                take += dp[i-2];
+            int notTake = dp[i-1];
+            dp[i] = Math.max(take, notTake);
+        }
+        return dp[n - 1];
     }
-    public int calc(int arr[], int n, int dp[])
-    {
-        if(n == 0)
-        return arr[0];
+    // public int calc(int arr[], int n, int dp[])
+    // {
+    //     if(n == 0)
+    //     return arr[0];
         
-        else if(n < 0)
-        return 0;
+    //     else if(n < 0)
+    //     return 0;
         
-        if(dp[n] != -1)
-        return dp[n];
+    //     if(dp[n] != -1)
+    //     return dp[n];
         
-        int take = arr[n] + calc(arr, n - 2, dp);
-        int notTake = calc(arr, n - 1, dp);
+    //     int take = arr[n] + calc(arr, n - 2, dp);
+    //     int notTake = calc(arr, n - 1, dp);
         
-        return dp[n] = Math.max(take, notTake);
-    }
+    //     return dp[n] = Math.max(take, notTake);
+    // }
 }
