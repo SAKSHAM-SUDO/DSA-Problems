@@ -6,7 +6,6 @@ class Solution {
         
         int nse[] = new int[n];
         int pse[] = new int[n];
-        int area[] = new int[n];
         Stack<Integer> st = new Stack<>();
         st.push(n - 1);
         nse[n-1] = n;
@@ -46,9 +45,7 @@ class Solution {
         int max = Integer.MIN_VALUE;
         for(int i = 0; i  < n; i++)
         {
-            area[i] = heights[i] * (nse[i] - pse[i] - 1);
-            if(area[i] > max)
-                max = area[i];
+            max = Math.max(max, heights[i] * (nse[i] - pse[i] - 1));
         }
         return max;
         
