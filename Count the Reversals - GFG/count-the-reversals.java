@@ -29,42 +29,42 @@ class Sol
 {
     int countRev (String s)
     {
-        if(s.length() % 2  == 1)
-            return -1;
-            
+        if(s.length() % 2 == 1)
+        return -1;
+        
         Stack<Character> st = new Stack<>();
         
         for(int i = 0; i < s.length(); i++)
         {
             char ch = s.charAt(i);
-            
             if(ch == '{')
             {
                 st.push(ch);
             }
-            else{
+            else
+            {
                 if(!st.isEmpty() && st.peek() == '{')
                 {
                     st.pop();
                 }
-                else{
-                    st.push('}');
-                }
+                else
+                st.push(ch);
             }
         }
-        
-        int count=0;
-        char c1=0,c2=0;
-        while(!st.isEmpty()) {
+        char c1 ;
+        char c2 ;
+        int count = 0;
+        while(!st.isEmpty())
+        {
             c1 = st.pop();
             c2 = st.pop();
-            if (c1 == c2) {
+            if(c1 == c2)
+            {
                 count++;
-            } else {
-                count += 2;
             }
+            else
+                count += 2;
         }
-        return count;       
-
+        return count;
     }
 }
