@@ -21,58 +21,40 @@ class GFG
 }// } Driver Code Ends
 
 
-
 class Solution
 {
-    int findMaxDiff(int A[], int n)
+    int findMaxDiff(int a[], int n)
     {
-	int[] left = new int[n];
-      int[] right = new int[n];
-      left[0] = 0;
-      right[n-1] = 0;
-      Stack<Integer> st = new Stack<>();
-      st.push(A[n-1]);
-      
-      for(int i = n-2; i >= 0; i--)
-      {
-        while(!st.isEmpty() && st.peek() >= A[i])
+        Stack<Integer>s=new Stack<>();
+        int left[]=new int[n];
+        int right[]=new int[n];
+        for(int i=0;i<n;i++)
         {
-            st.pop();
+            while(!s.isEmpty() && s.peek()>=a[i])
+            {
+                s.pop();
+            }
+            int res=s.isEmpty()?0:s.peek();
+            left[i]=res;
+            s.push(a[i]);
         }
-        if(st.isEmpty())
+        s.clear();
+        for(int i=n-1;i>=0;i--)
         {
-            right[i] = 0;   
+            while(!s.isEmpty() && s.peek()>=a[i])
+            {
+                s.pop();
+            }
+            int res=s.isEmpty()?0:s.peek();
+            right[i]=res;
+            s.push(a[i]);
         }
-        else
-            right[i] = st.peek();
-            
-        st.push(A[i]);
-      }
-      st = new Stack<>();
-      Stack<Integer> st1 = new Stack<>();
-      st1.push(A[0]);
-      for(int i = 1; i < n; i++)
-      {
-          while(!st1.isEmpty() && A[i] <= st1.peek())
-          {
-              st1.pop();
-          }
-          if(st1.isEmpty())
-          {
-              left[i] = 0;
-          }
-          else{
-              left[i] = st1.peek();
-          }
-          st1.push(A[i]);
-      }
-      
+        int max=Integer.MIN_VALUE;
+        for(int i=0;i<n;i++)
+        {
+            max = Math.max(max , Math.abs(left[i] - right[i]));
+        }
+        return max;
 
-      int max = Integer.MIN_VALUE;
-      for(int i = 0; i < n; i++)
-      {
-          max = Math.max(max, Math.abs(left[i] - right[i]));
-      }
-      return max;
     }
 }
