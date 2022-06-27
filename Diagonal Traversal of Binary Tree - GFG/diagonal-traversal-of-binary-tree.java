@@ -133,6 +133,8 @@ class Tree
            {
                int size = qu.size();
                
+               while(size --> 0)
+               {
                    Node node = qu.remove();
                    
                    while(node != null)
@@ -144,9 +146,8 @@ class Tree
                         }
                         node = node.right;
                }
-
+           }
       }
-                 return list;
-
+      return list;
 }
 }
