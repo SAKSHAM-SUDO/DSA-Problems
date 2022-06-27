@@ -67,7 +67,6 @@ class Solution {
                 {
                     while(!nodes.isEmpty())
                     {
-                        // System.out.println(nodes.peek());
                         list.get(list.size() - 1).add(nodes.poll());
                     }
                 }
