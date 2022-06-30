@@ -14,31 +14,15 @@
  * }
  */
 class Solution {
-    ArrayList<TreeNode> list;
+    TreeNode prev = null;
     public void flatten(TreeNode root) {
         if(root == null)
             return;
-        list = new ArrayList<>();
-        dfs(root);
         
-        TreeNode curr = list.get(0);
-        
-        for(int i = 1; i < list.size(); i++)
-        {
-            TreeNode next = list.get(i);
-            curr.left = null;
-            curr.right = next;
-            curr = next;
-        }
-        
-    }
-    public void dfs(TreeNode root)
-    {
-        if(root == null)
-            return;
-        
-        list.add(root);
-        dfs(root.left);
-        dfs(root.right);
+        flatten(root.right);
+        flatten(root.left);
+        root.right = prev;
+        root.left = null;
+        prev = root;
     }
 }
