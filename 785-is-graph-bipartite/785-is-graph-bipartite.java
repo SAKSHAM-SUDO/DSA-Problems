@@ -1,20 +1,32 @@
 class Solution {
-    public boolean isBipartite(int[][] g) {
-        int[] colors = new int[g.length];
-        for (int i = 0; i < g.length; i++)
-            if (colors[i] == 0 && !validColor(g, colors, 1, i))
-                return false;
+    public boolean isBipartite(int[][] graph) {
+        int n = graph.length;
+        int color[] = new int[n];
+        Arrays.fill(color, -1);
+        Queue<Integer> q = new LinkedList<>();
+        
+        for(int i = 0; i < n; i++)
+        {
+            if(color[i] == -1)     // not colored
+            {
+                color[i] = 1;
+                q.add(i);
+                while(!q.isEmpty())
+                {
+                    int curr = q.remove();
+                    for(int num : graph[curr])
+                    {
+                        if(color[num] == -1)
+                        {
+                            q.add(num);
+                            color[num] = 1 - color[curr];
+                        }
+                        else if(color[num] == color[curr])
+                            return false;
+                    }
+                }
+            }
+        }
         return true;
     }
-
-    boolean validColor(int[][] g, int[] colors, int color, int node) {
-        if (colors[node] != 0)
-            return colors[node] == color;
-        colors[node] = color;
-        for (int adjacent : g[node])
-            if (!validColor(g, colors, -color, adjacent))
-                return false;
-        return true;
-    }
-    
 }
