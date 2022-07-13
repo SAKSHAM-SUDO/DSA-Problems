@@ -1,42 +1,33 @@
 class Solution {
-    public int minFallingPathSum(int[][] matrix)
-    {
+    public int minFallingPathSum(int[][] a) {
+        int min = Integer.MAX_VALUE;
+        int m = a.length;
+        int n = a[0].length;
         
-        int minSum = Integer.MAX_VALUE;
-        int r = matrix.length;
-        int c = matrix[0].length;
-        int dp[][] = new int[r][c];
+        int[][] dp=new int[m][n];
+        for(int[] row: dp) Arrays.fill(row,-1);
+        for(int j = 0; j<n; j++) dp[0][j] = a[0][j];
         
-        for(int row[] : dp)
-            Arrays.fill(row, -1);
-        
-        for(int i = 0; i < matrix[0].length; i++)
-        {
-            int curSum = rec(matrix, r - 1, i, dp);
-            minSum = Math.min(minSum, curSum);
+        for(int i = 1; i<m; i++){
+            for(int j =0; j<n; j++){
+                
+                int left = a[i][j];
+                if(j>0) left += dp[i-1][j-1];
+                else left += (int)Math.pow(10,9);
+                
+                int up = a[i][j] + dp[i-1][j];
+                
+                int right = a[i][j];
+                if(j<a[0].length-1) right += dp[i-1][j+1];
+                else right = (int)Math.pow(10,9);
+                
+                dp[i][j] = Math.min(left,Math.min(up,right));
+            }
         }
-        return minSum;
-    }
-    public int rec(int[][] matrix, int row, int col, int dp[][])
-    {
-        if(col >= matrix[0].length || row < 0 || col < 0)
-            return (int)Math.pow(10,9);
         
-        else if(row == 0)
-        {
-            dp[row][col] = matrix[row][col];
-            return dp[row][col];
+        for(int j = 0; j<n; j++){
+            min = Math.min(min,dp[n-1][j]);
         }
-            
-        
-        else if(dp[row][col] != -1)
-            return dp[row][col];
-        
-        int dLeft = matrix[row][col] + rec(matrix, row - 1, col - 1, dp);
-        int dright = matrix[row][col] + rec(matrix, row - 1, col + 1, dp);
-        int down = matrix[row][col] + rec(matrix, row - 1, col, dp);
-
-        dp[row][col] = Math.min(dLeft, Math.min(dright, down));
-        return dp[row][col];
+        return min;
     }
 }
