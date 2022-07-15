@@ -3,29 +3,31 @@ class Solution {
     {
         if(amount == 0)
             return 0;
-        int dp[][] = new int[coins.length][amount + 1];
+        int dp[] = new int[amount + 1];        
         
         for(int i = 0; i <= amount; i++)
-        dp[0][i] = i % coins[0] == 0 ? (i / coins[0]) : (int)Math.pow(10, 9);
+        dp[i] = i % coins[0] == 0 ? (i / coins[0]) : (int)Math.pow(10, 9);
         
         for(int i = 1; i < coins.length; i++)
         {
+            int curr[] = new int[amount + 1];
             for(int target = 0; target <= amount; target++)
             {
                 
                 int pick = (int)Math.pow(10, 9);
                 int notPick = 0;
 
-                notPick = 0 + dp[i - 1][target];
+                notPick = 0 + dp[target];
                 if(coins[i] <= target)
-                    pick = 1 + dp[i][target - coins[i]];
-                dp[i][target] = Math.min(pick, notPick);
+                    pick = 1 + curr[target - coins[i]];
+                curr[target] = Math.min(pick, notPick);
             }
+            dp = curr;
         }
         
-        if(dp[coins.length - 1][amount] == (int)Math.pow(10, 9))
+        if(dp[amount] == (int)Math.pow(10, 9))
             return -1;
-        return dp[coins.length - 1][amount];
+        return dp[amount];
     }
 //     public int rec(int coins[], int idx, int amount, int dp[][])
 //     {        
