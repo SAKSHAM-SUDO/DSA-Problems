@@ -1,34 +1,42 @@
 class Solution {
     public int lengthOfLIS(int[] nums)
     {
-        int n = nums.length;
-        int dp[][] = new int[n][n + 1];
+        List<Integer> ans = new ArrayList<>();
+        ans.add(nums[0]);
         
-        for(int row[] : dp)
-            Arrays.fill(row, -1);
-        
-        return rec(nums, 0, -1, n, dp);
-    }
-    public int rec(int nums[], int idx, int prev, int n, int dp[][])
-    {
-        if(idx >= n)
+        for(int i = 1; i < nums.length; i++)
         {
-            return 0;
+            if(nums[i] > ans.get(ans.size() - 1))
+            {
+                ans.add(nums[i]);
+            }
+            else
+            {
+                int index = binarySearch(nums[i], ans);
+                ans.set(index, nums[i]);
+            }
         }
-        
-        if(dp[idx][prev + 1] != -1)
-            return dp[idx][prev + 1];
-        
-        int pick = 0;
-        int notPick = 0;
-                
-        if(prev == -1 || nums[idx] > nums[prev])
-            pick = 1 + rec(nums, idx + 1, idx, n, dp);
-
-        notPick = rec(nums, idx + 1, prev, n, dp);
-        
-        dp[idx][prev + 1] = Math.max(pick, notPick);
-        return dp[idx][prev + 1];
+        return ans.size();
     }
-
+    
+    public int binarySearch(int num, List<Integer> list)
+    {
+        int low = 0;
+        int high = list.size() - 1;
+        
+        while(low <= high)
+        {
+            int mid = low + (high - low) / 2;
+            
+            if(list.get(mid) == num)
+                return mid;
+            
+            else if(list.get(mid) > num)
+                high = mid - 1;
+            
+            else
+                low = mid + 1;
+        }
+        return low;
+    }
 }
