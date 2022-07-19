@@ -1,28 +1,46 @@
 class Solution {
-    public int longestStrChain(String[] words) {
-        
-	    if(words == null || words.length == 0) {
-            return 0;
-        }
-	
-        int res = 0;
-	
+    public int longestStrChain(String[] words)
+    {
+        int dp[] = new int[words.length];
+        Arrays.fill(dp, 1);
+        int max = 1;
         Arrays.sort(words, (a,b)-> a.length()-b.length());
-	    HashMap<String, Integer> map = new HashMap(); 
-	    
-        for(String w : words) {                            
-		    map.put(w, 1);                                  
-		
-            for(int i=0; i<w.length(); i++) {  
-                
-    			StringBuilder sb = new StringBuilder(w);
-	    		String next = sb.deleteCharAt(i).toString();
-                
-		    	if(map.containsKey(next) && map.get(next)+1 > map.get(w))
-			    	map.put(w, map.get(next)+1);       
-        		}
-		    res = Math.max(res, map.get(w));          
-	    }
-	    return res;
+
+        for(int i = 1; i < words.length; i++)
+        {
+            for(int j = 0; j < i; j++)
+            {
+                if(compare(words[i], words[j]) && dp[i] < dp[j] + 1)
+                {
+                    dp[i] = dp[j] + 1;
+                }
+            }
+            if(dp[i] > max)
+                max = dp[i];
+        }
+        return max;
+    }
+    public boolean compare(String word1, String word2)
+    {
+        if(word1.length() != word2.length() + 1)
+            return false;
+        
+        int i = 0;
+        int j = 0;
+        while(i < word1.length())
+        {
+            if(j < word2.length() && word1.charAt(i) == word2.charAt(j))
+            {
+                i++;
+                j++;
+            }
+            else
+                i++;
+        }
+        if(i == word1.length() && j == word2.length())
+            return true;
+        
+        return  false;
+
     }
 }
