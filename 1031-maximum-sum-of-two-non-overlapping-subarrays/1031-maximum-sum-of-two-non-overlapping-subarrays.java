@@ -1,41 +1,51 @@
 class Solution {
-    public int maxSumTwoNoOverlap(int[] nums, int x, int y)
+    public int maxSumTwoNoOverlap(int[] nums, int firstLen, int secondLen)
     {
-        int firstAhead=solve(nums,x,y);
-        int secondAhead=solve(nums,y,x);
-        return Math.max(firstAhead,secondAhead);
+        int firstAhead = findMaxSum(nums, firstLen, secondLen);
+        int secondAhead = findMaxSum(nums, secondLen, firstLen);
+        
+        return Math.max(firstAhead, secondAhead);
     }
-    public int solve(int[]nums,int x,int y)
+    public int findMaxSum(int[] nums, int firstLen, int secondLen)
     {
-        int n=nums.length,sum=0;
-        int []dp1=new int[n];
-        int []dp2=new int[n];
-        for(int i=0;i<n;i++){
-            if(i<x){
-                sum+=nums[i];
-                dp1[i]=sum;
+        
+        int size = nums.length;
+        int first[] = new int[size];
+        int second[] = new int[size];
+        int sum = 0;
+        
+        for(int i = 0; i < size; i++)
+        {
+            if(i < firstLen)
+            {
+                sum += nums[i];
+                first[i] = sum;
             }
-            else{
-                sum+=nums[i]-nums[i-x];
-                dp1[i]=Math.max(sum,dp1[i-1]);
-            }
-        }
-        sum=0;
-        for(int i=n-1;i>=0;i--){
-            if(i+y>=n){
-                sum+=nums[i];
-                dp2[i]=sum;
-            }
-            else{
-                sum+=nums[i]-nums[i+y];
-                dp2[i]=Math.max(sum,dp2[i+1]);
+            else
+            {
+                sum = sum + nums[i] - nums[i - firstLen];
+                first[i] = Math.max(first[i - 1], sum);
             }
         }
-        int ans=0;
-        for(int i=x-1;i<n-y;i++){
-            ans=Math.max(ans,dp1[i]+dp2[i+1]);
+        sum = 0;
+        for(int i = size - 1; i >= 0; i--)
+        {
+            if(i >= size - secondLen)
+            {
+                sum += nums[i];
+                second[i] = sum;
+            }
+            else
+            {
+                sum = sum + nums[i] - nums[i + secondLen];
+                second[i] = Math.max(sum, second[i + 1]);
+            }
+        }
+        int ans = 0;
+        for(int i = firstLen - 1; i < size - secondLen; i++)
+        {
+            ans = Math.max(ans, first[i] + second[i + 1]);
         }
         return ans;
-        
     }
 }
