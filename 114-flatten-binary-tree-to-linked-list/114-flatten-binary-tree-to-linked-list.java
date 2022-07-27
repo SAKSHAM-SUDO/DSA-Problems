@@ -37,7 +37,5 @@ class Solution {
             curr.right = temp;
         }
         flatten(root.right);
-        
-        
     }
 }
