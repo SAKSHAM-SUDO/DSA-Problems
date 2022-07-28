@@ -1,53 +1,55 @@
 class Solution {
-    public int largestRectangleArea(int[] heights) {
-        int n = heights.length;
-        if(n == 1)
-            return heights[0];
-        
-        int nse[] = new int[n];
-        int pse[] = new int[n];
+    public int largestRectangleArea(int[] heights)
+    {
+        int size = heights.length;
+        int nser[] = new int[size];
         Stack<Integer> st = new Stack<>();
-        st.push(n - 1);
-        nse[n-1] = n;
-        for(int i = n-2; i >= 0; i--)
+        nser[size - 1] = size;
+        st.push(size - 1);
+        
+        for(int i = size - 2; i >= 0; i--)
         {
+            int c = 0;
             while(!st.isEmpty() && heights[i] <= heights[st.peek()])
             {
+                c++;
                 st.pop();
             }
             if(st.isEmpty())
-            {
-                nse[i] = n;
-            }
-            else{
-                nse[i] = st.peek();
-            }
+                nser[i] = size;
+            else
+                nser[i] = st.peek();
+            
             st.push(i);
         }
+                
+        int nsel[] = new int[size];
         st = new Stack<>();
+        nsel[0] = -1;
         st.push(0);
-        pse[0] = -1;
-        for(int i = 1; i < n; i++)
+        
+        for(int i = 1; i < size; i++)
         {
             while(!st.isEmpty() && heights[i] <= heights[st.peek()])
             {
                 st.pop();
             }
             if(st.isEmpty())
-            {
-                pse[i] = -1;
-            }
-            else{
-                pse[i] = st.peek();
-            }
+                nsel[i] = -1;
+            else
+                nsel[i] = st.peek();
+            
             st.push(i);
         }
-        int max = Integer.MIN_VALUE;
-        for(int i = 0; i  < n; i++)
+        
+        int max = 0;
+        int curr = 0;
+        for(int i = 0; i < size; i++)
         {
-            max = Math.max(max, heights[i] * (nse[i] - pse[i] - 1));
+            curr = (nser[i] - nsel[i] - 1) * heights[i];
+            if(curr > max)
+                max = curr;
         }
         return max;
-        
     }
 }
