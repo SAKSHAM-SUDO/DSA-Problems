@@ -1,28 +1,18 @@
 class MyCalendar {
+    TreeMap<Integer, Integer> calendar;
 
-    HashMap<Integer, Integer> map;
-    public MyCalendar()
-    {
-        map = new HashMap<>();
+    MyCalendar() {
+        calendar = new TreeMap();
     }
-    
-    public boolean book(int start, int end)
-    {
-        for(Map.Entry<Integer, Integer> entry : map.entrySet())
-        {
-            int s = entry.getKey();
-            int e = entry.getValue();
-            
-            if(s < end && start < e)
-                return false;
+
+    public boolean book(int start, int end) {
+        Integer prev = calendar.floorKey(start),
+                next = calendar.ceilingKey(start);
+        if ((prev == null || calendar.get(prev) <= start) &&
+                (next == null || end <= next)) {
+            calendar.put(start, end);
+            return true;
         }
-        map.put(start, end);
-        return true;
+        return false;
     }
 }
-
-/**
- * Your MyCalendar object will be instantiated and called as such:
- * MyCalendar obj = new MyCalendar();
- * boolean param_1 = obj.book(start,end);
- */
