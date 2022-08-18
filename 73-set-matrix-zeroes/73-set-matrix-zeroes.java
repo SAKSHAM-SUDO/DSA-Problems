@@ -1,41 +1,42 @@
 class Solution {
     public void setZeroes(int[][] matrix) {
         
-        int row = matrix.length - 1; 
-        int col = matrix[0].length - 1;
+        int r = matrix.length; 
+        int c = matrix[0].length;
         
-        boolean visited[][] = new boolean[matrix.length][matrix[0].length];
-        
-        for(int i = 0 ; i<=row; i++)
+        int row[] = new int[r];
+        int col[] = new int[c];
+        Arrays.fill(row, -1);
+        Arrays.fill(col, -1);
+        for(int i = 0 ; i < r; i++)
         {
-            for(int j = 0; j<=col; j++)
+            for(int j = 0; j < c; j++)
             {
-                if(matrix[i][j] == 0 && visited[i][j] == false)
+                if(matrix[i][j] == 0)
                 {
-                    
-                    for(int k = 0; k<matrix.length; k++)
-                     {
-                        if(matrix[k][j] != 0)
-                        {
-                            matrix[k][j] = 0;
-                            visited[k][j] = true;
-                        }
-
-                    }
-                    for(int c = 0; c<matrix[0].length; c++)
-                    {
-                        if(matrix[i][c] != 0)
-                        {
-                            matrix[i][c] = 0;
-                            visited[i][c] = true;
-                        }
-
-                    }
+                    col[j] = 0;
+                    row[i] = 0;
                 }
-                
             }
         }
         
+        for(int i = 0; i < r; i++)
+        {
+            if(row[i] == 0)
+            {
+                for(int k = 0; k < c; k++)
+                    matrix[i][k] = 0;
+            }
+        }
+        
+        for(int i = 0; i < c; i++)
+        {
+            if(col[i] == 0)
+            {
+                for(int k = 0; k < r; k++)
+                    matrix[k][i] = 0;
+            }
+        }
     }
     
 }
