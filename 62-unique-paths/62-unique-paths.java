@@ -1,33 +1,24 @@
 class Solution {
-    public int uniquePaths(int m, int n) {
+    public int uniquePaths(int m, int n)
+    {
         int dp[][] = new int[m][n];
-        dp[0][0] = 1;
-        for(int i = 0; i < m; i++)
-        {
-            for(int j = 0; j < n; j++)
-            {
-                if(i - 1 >= 0)
-                    dp[i][j] += dp[i - 1][j];
-                if(j - 1 >= 0)
-                 dp[i][j] += dp[i][j - 1];
-            }
-        }
-        return dp[m - 1][n - 1];
+        
+        for(int row[] : dp)
+            Arrays.fill(row, -1);
+        return rec(0, 0, m, n, dp);
     }
-//     public int rec(int m, int n, int dp[][])
-//     {
-//         if(m == 0 && n == 0)
-//             return 1;
-//         else if(m < 0 || n < 0)
-//             return 0;
+    public int rec(int row, int col, int m, int n, int dp[][])
+    {
+        if(row == m-1 && col == n-1)
+            return 1;
         
-//         if(dp[m][n] != -1)
-//             return dp[m][n];
+        else if(row >= m || col >= n)
+            return 0;
         
-//         int left = rec(m-1, n, dp);
-//         int right = rec(m, n-1, dp);
+        else if(dp[row][col] != -1)
+            return dp[row][col];
         
-//         dp[m][n] = left + right;
-//         return dp[m][n];
-//     }
+        dp[row][col] = rec(row + 1, col, m, n, dp) + rec(row, col + 1, m, n, dp);
+        return dp[row][col];
+    }
 }
